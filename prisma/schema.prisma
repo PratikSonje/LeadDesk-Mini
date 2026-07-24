@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  role          Role     @default(ADMIN)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Lead {
+  id         String     @id @default(uuid())
+  name       String
+  email      String
+  budget     String
+  message    String     @db.Text
+  status     LeadStatus @default(NEW)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  deleted_at DateTime?
+
+  @@index([created_at])
+  @@index([status])
+  @@index([name])
+  @@index([email])
+}

@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Visionary LeadDesk Mini
 
-## Getting Started
+A full-stack, Next.js-powered digital experience agency landing page and secure admin portal. Built to capture inbound leads and securely manage them.
 
-First, run the development server:
+## The Data Model
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The application uses **Prisma ORM** connected to a **Prisma Postgres** cloud database. The core schema revolves around two models:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. `User` (The Admin)
+- Stores the administrator's credentials.
+- Uses `bcrypt` to encrypt the `password_hash` to ensure high security.
+- Contains a `role` field (defaulting to `ADMIN`) which is strictly validated by the server before allowing access to the admin dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. `Lead` (The Inbound Prospects)
+- Captures the incoming data from the public `LeadCaptureForm`.
+- **Fields**: `name`, `email`, `budget`, `message`.
+- **Status Tracking**: Uses a `Status` enum (`NEW`, `CONTACTED`, `CLOSED`) to track where the prospect is in the pipeline.
+- **Soft Deletion**: Instead of permanently deleting records (`DELETE`), we use a `deleted_at` timestamp. This allows for historical auditing while filtering "deleted" leads out of the active admin view.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## The Auth Approach
 
-## Learn More
+The application utilizes **NextAuth.js (Auth.js v5)** for robust, enterprise-grade authentication.
 
-To learn more about Next.js, take a look at the following resources:
+1. **Credentials Provider**: The app uses the `Credentials` provider. When a user attempts to log in via `/login`, the server action fetches the user by email from the database and uses `bcrypt.compare` to verify the provided password against the stored `password_hash`.
+2. **Rate Limiting**: The login endpoint is protected by an IP-based rate limiter to prevent brute-force and credential stuffing attacks.
+3. **Session Management**: Auth.js handles the secure creation and encryption of a JWT session cookie (`strategy: "jwt"`). The user's `role` is baked into this token.
+4. **Route Protection**: The `/admin/layout.tsx` file intercepts all requests to the admin area. It calls `await auth()` on the server side; if the session is invalid, missing, or the user is not an `ADMIN`, they are immediately forcefully redirected back to the `/login` page. No sensitive data is ever leaked to the client.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech Stack
+- **Framework**: Next.js (App Router, Server Actions)
+- **Database**: Prisma Postgres
+- **Styling**: Tailwind CSS & Framer Motion
+- **Validation**: Zod & React Hook Form
+- **Auth**: Auth.js (NextAuth)

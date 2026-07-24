@@ -1,65 +1,143 @@
-import Image from "next/image";
+import { LeadCaptureForm } from "@/components/LeadCaptureForm";
+import { MobileMockup } from "@/components/MobileMockup";
+import type { Metadata } from "next";
+import * as motion from "framer-motion/client";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "LeadDesk Mini | Premium Lead Management",
+  description: "Capture inbound leads securely and manage them with a beautifully designed admin dashboard.",
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden dark font-sans selection:bg-orange-500/30">
+      
+      {/* Top Navigation / Admin Button */}
+      <div className="absolute top-0 right-0 p-8 z-50">
+        <Link 
+          href="/admin" 
+          className={cn(
+            buttonVariants({ variant: "outline" }), 
+            "border-white/10 text-white/50 hover:text-white hover:bg-white/5 bg-transparent rounded-full px-6 transition-all backdrop-blur-md"
+          )}
+        >
+          Admin Portal
+        </Link>
+      </div>
+
+      {/* Background Gradient Orbs */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.3, 0.15],
+          rotate: [0, 90, 0]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-900/20 rounded-full blur-[150px] pointer-events-none" 
+      />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-700/10 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Main Container */}
+      <div className="z-10 w-full max-w-[1400px] mx-auto min-h-screen flex flex-col lg:flex-row items-center justify-between p-8 lg:p-16 gap-16">
+        
+        {/* Left Side: Mobile Mockups */}
+        <div className="flex-1 w-full flex items-center justify-center relative h-[700px]">
+          
+          {/* Background blurred mockup (Left) */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden xl:block">
+            <MobileMockup blurred scale={0.85} delay={0.4} y={-20} className="opacity-40">
+               <div className="w-full h-full bg-zinc-900 flex flex-col items-center justify-center p-6 text-center opacity-30">
+                 <div className="w-16 h-16 rounded-full bg-orange-500/20 mb-4" />
+                 <div className="h-4 w-3/4 bg-white/10 rounded mb-2" />
+                 <div className="h-4 w-1/2 bg-white/10 rounded" />
+               </div>
+            </MobileMockup>
+          </div>
+
+          {/* Primary Form Mockup (Center) */}
+          <div className="relative z-20 mx-auto">
+            <MobileMockup delay={0.2} scale={1} y={0}>
+              <LeadCaptureForm />
+            </MobileMockup>
+          </div>
+
+          {/* Background blurred mockup (Right) */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden xl:block">
+            <MobileMockup blurred scale={0.85} delay={0.6} y={20} className="opacity-40">
+               <div className="w-full h-full bg-zinc-900 p-6 space-y-4 opacity-30">
+                 <div className="w-full h-32 rounded-xl bg-orange-500/20" />
+                 <div className="h-4 w-full bg-white/10 rounded" />
+                 <div className="h-4 w-2/3 bg-white/10 rounded" />
+               </div>
+            </MobileMockup>
+          </div>
+
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        
+        {/* Right Side: Typography & List */}
+        <div className="flex-1 w-full max-w-xl flex flex-col justify-center space-y-16">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white leading-[1.1] mb-6">
+              LeadDesk <br />
+              Mini
+            </h1>
+            <div className="w-16 h-1 bg-orange-500 rounded-full" />
+          </motion.div>
+
+          <motion.div 
+            className="space-y-8"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.4 } }
+            }}
           >
-            Documentation
-          </a>
+            {[
+              { num: "01", title: "Connect With Us", href: null },
+              { num: "02", title: "Admin View", href: "/admin" },
+              { num: "03", title: "Secure Connect", href: null },
+            ].map((item) => {
+              const content = (
+                <div className="flex items-center gap-6 group cursor-pointer">
+                  <div className="w-14 h-14 rounded-full bg-white text-orange-500 font-bold text-xl flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300 shadow-lg">
+                    {item.num}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                </div>
+              );
+
+              return (
+                <motion.div 
+                  key={item.num}
+                  variants={{
+                    hidden: { opacity: 0, x: 20 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                  }}
+                >
+                  {item.href ? (
+                    <Link href={item.href} className="block">
+                      {content}
+                    </Link>
+                  ) : (
+                    content
+                  )}
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </div>
-      </main>
-    </div>
+
+      </div>
+    </main>
   );
 }
