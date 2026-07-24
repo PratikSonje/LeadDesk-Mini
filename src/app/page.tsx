@@ -138,6 +138,18 @@ export default function Home() {
         </div>
 
       </div>
+
+      {/* Footer */}
+      <div className="absolute bottom-6 w-full text-center z-50 text-sm text-zinc-500">
+        <Link 
+          href="https://digitalheroesco.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="hover:text-orange-500 transition-colors"
+        >
+          Made For Digital Heroes
+        </Link>
+      </div>
     </main>
   );
 }
