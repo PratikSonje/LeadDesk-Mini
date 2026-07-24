@@ -47,3 +47,5 @@ next-env.d.ts
 /info
 /types
 /tests
+AGENTS.md
+CLAUDE.md
