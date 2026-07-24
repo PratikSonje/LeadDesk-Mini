@@ -120,16 +120,17 @@ export default async function AdminDashboard(props: {
       
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-zinc-400 px-2">
-          <div>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 px-2 pb-4">
+          <div className="text-center sm:text-left">
             Showing <span className="text-white font-medium">{(page - 1) * PAGE_SIZE + 1}</span> to <span className="text-white font-medium">{Math.min(page * PAGE_SIZE, totalCount)}</span> of <span className="text-white font-medium">{totalCount}</span> leads
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto justify-center">
             <Link 
               href={`/admin?${new URLSearchParams({ ...(query && { q: query }), page: (page - 1).toString() })}`}
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                page <= 1 && "pointer-events-none opacity-50"
+                page <= 1 && "pointer-events-none opacity-50",
+                "flex-1 sm:flex-none"
               )}
             >
               Previous
@@ -138,7 +139,8 @@ export default async function AdminDashboard(props: {
               href={`/admin?${new URLSearchParams({ ...(query && { q: query }), page: (page + 1).toString() })}`}
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                page >= totalPages && "pointer-events-none opacity-50"
+                page >= totalPages && "pointer-events-none opacity-50",
+                "flex-1 sm:flex-none"
               )}
             >
               Next

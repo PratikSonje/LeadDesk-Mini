@@ -20,9 +20,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             </div>
             Visionary Admin
           </div>
-          <div className="flex items-center gap-4 text-sm font-medium text-zinc-400">
-            <span>{session.user.email}</span>
-            <div className="w-px h-4 bg-white/10 mx-2" />
+          <div className="flex items-center gap-2 sm:gap-4 text-sm font-medium text-zinc-400">
+            <span className="hidden sm:inline">{session.user.email}</span>
+            <div className="hidden sm:block w-px h-4 bg-white/10 mx-2" />
             <SignOutButton />
           </div>
         </div>

@@ -20,8 +20,8 @@ export default function Home() {
         <Link 
           href="/admin" 
           className={cn(
-            buttonVariants({ variant: "outline" }), 
-            "border-white/10 text-white/50 hover:text-white hover:bg-white/5 bg-transparent rounded-full px-6 transition-all backdrop-blur-md"
+            buttonVariants({ variant: "outline", size: "sm" }), 
+            "border-white/10 text-white/50 hover:text-white hover:bg-white/5 bg-black/50 rounded-full px-4 md:px-6 transition-all backdrop-blur-md text-xs md:text-sm"
           )}
         >
           Admin Portal
@@ -41,7 +41,7 @@ export default function Home() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-700/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Container */}
-      <div className="z-10 w-full max-w-[1400px] mx-auto min-h-screen flex flex-col lg:flex-row items-center justify-between p-8 lg:p-16 gap-16">
+      <div className="z-10 w-full max-w-[1400px] mx-auto min-h-screen flex flex-col-reverse lg:flex-row items-center justify-between p-6 lg:p-16 gap-12 lg:gap-16 pt-24 lg:pt-16 pb-24 lg:pb-16">
         
         {/* Left Side: Mobile Mockups */}
         <div className="flex-1 w-full flex items-center justify-center relative h-[700px]">
